@@ -1,0 +1,207 @@
+<html>
+	<head>
+
+		<!-- External libraries -->
+		<script src="http://fb.me/react-0.11.2.js"></script>
+		<script src="http://fb.me/JSXTransformer-0.11.2.js"></script>
+		<script src="http://code.jquery.com/jquery-1.10.0.min.js"></script>
+		<script src="http://code.highcharts.com/highcharts.js"></script>
+		<link href='http://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
+		<script src="http://cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.js"></script>
+		<script src='lib/papaparse.js'> </script>
+
+
+		<!-- Highchart theme -->
+		<script src="theme/grid.js"></script>
+
+		<!-- Importing all our component classes below -->
+		<!-- Look in to webpack to clean up the stuff below when this gets a backend -->
+		<!-- and also precompile JSX -->
+		<!-- http://webpack.github.io/docs/what-is-webpack.html -->
+		<script type='text/jsx' src="src/graphdashboard.js"></script>
+
+		<script type='text/jsx' src="src/graph-creator-container/graph-creator-container.js"></script>
+		<script type='text/jsx' src="src/graph-creator-container/button-group.js"></script>
+		<script type='text/jsx' src="src/graph-creator-container/category-button.js"></script>
+		<script type='text/jsx' src="src/graph-creator-container/filter-button.js"></script>
+		<script type='text/jsx' src="src/graph-creator-container/subfilter-button.js"></script>
+
+		<script type='text/jsx' src="src/graph-container/graph-container.js"></script>
+		<script type='text/jsx' src="src/graph-container/graph.js"></script>
+		<script type='text/jsx' src="src/graph-container/error-msg.js"></script>
+		<script type='text/jsx' src="src/graph-container/graph-placeholder.js"></script>
+
+		<link rel='stylesheet' href="graph_dashboard.css"></link>
+		<script type='text/jsx' src="index.js"></script>
+	</head>
+
+	<body>
+		<div id='intro-container'>
+			<div id='graph-placeholder-title'>Coding Challenge</div>
+			<div class='intro-text'>
+					<h2> Graph Dashboard </h2>
+					<p>My goal with this project was to decouple the functionality of this dashboard
+					from the given dataset so it can be reused 
+					with a different endpoint and still be useful.  I've 
+					reached that goal with moderate success. This dashboard will generate filters and
+					graph timeseries data that is in the correct input format.
+					It makes only a few assumptions about the dataset that's being passed in. 
+					In the project's current state, the input must contain some date column, one y-axis label column
+					, and one value column. An options hash must be provided as shown below. I'm going to continute to tweak this project until it can handle all sorts of datasets and can be useful with many other inputs.</p>
+
+					<p> Currently the project generates the filters based on the order of the columns of the input, so it's beneficial to put the y-axis label column before the filters. New iterations will support re-ordering of the filter buttons.</p>
+
+					<p> I've shown how the project reacts to different datasets by feeding the challenge set and also a  dataset containing GDP timeseries data. The new dataset can be loaded by clicking the div containing the options and the dataset preview below. </p>
+
+					<p>The user must inform the dashboard 
+					of the header for both the date column and y-axis column in the options
+					hash, as the dashboard will make no assumptions about 
+					the names of the y-axis column or date column (although this could 
+					be changed if we knew we had consistent input).</p>
+
+					<p>There are many more features and fixes I would have implemented if I had more time for this project. The CSS could use a pre-processor to keep it more organized and should probably be broken up in to separate files. The 'graph.js' file contains lots of data manipulation and and also renders the graph. It would probably be easier to read if the graph had a dedicated data-manipulation component separate from the rendering. Since this was my first time building a non-trivial project in React.js, I learned a lot about how to organize React.js code while working. I've refactored it a few times already, but I'm pretty confident that I could still remove about 50 lines of code while restructuring the project to be more readable. Also I would have liked to pull more datapoints for the second demonstration.</p>
+			</div>
+			<div id='mobile-dataset'>
+				<h2 class='dataset-title'>Mobile app dataset</h2>
+				<table class='data-preview'>
+					<caption>A few sample rows of the mobile app dataset</caption>
+					<tr>
+						<th>Date</th> 
+						<th>Metric</th> 
+						<th>App</th> 
+						<th>Category</th> 
+						<th>Platform</th> 
+						<th>Value</th> 
+					</tr>
+					<tr>
+						<td>8/1/13</td>
+						<td>Downloads</td>
+						<td>CandyBash</td>
+						<td>Games</td>
+						<td>iOS</td>
+						<td>34740221</td>
+					</tr>
+					<tr>
+						<td>8/1/13</td>
+						<td>Downloads</td>
+						<td>Words With Enemies</td>
+						<td>Games</td>
+						<td>iOS	</td>
+						<td>24199990</td>
+					</tr>
+					<tr>
+						<td>8/1/13</td>
+						<td>Daily Revenue</td>
+						<td>CandyBash</td>
+						<td>Games</td>
+						<td>iOS</td>
+						<td>7070</td>
+					</tr>
+					<tr>
+						<td>8/1/1</td>
+						<td>Daily Revenue</td>
+						<td>Words With Enemies</td>
+						<td>Games</td>
+						<td>iOS</td>
+						<td>7000</td>
+					</tr>
+					<tr>
+						<td>...</td>
+						<td>...</td>
+						<td>...</td>
+						<td>...</td>
+						<td>...</td>
+						<td>...</td>
+					</tr>
+				</table>
+
+				<p class='small'> Click this div to load the mobile app dataset. </p>
+
+				<h2 class='dataset-title'>Options for mobile app graphs</h2>
+				<div class='intro-text options-hash-formatting'>
+var options = {
+	filterSettings:{
+		'App': { 
+			addGroupingButtonsOn:['Category', 'Platform'],
+			addSubfiltersOn: {
+				'Platform': ['iOS', 'Android']
+			}
+		},	
+	},
+	types: { 
+		'Downloads': 'number',             
+		'Daily Revenue': 'percentage' 
+	},
+	yAxisIsAnInstanceOf:'Metric',
+	yAxisDataColumn:'Value',
+	dateColumn:'Date'		
+}
+				</div>
+			</div>
+
+
+			<div id='gdp-dataset'>
+				<h2 class='dataset-title'>US GDP dataset</h2>
+				<caption>A few sample rows of the GDP dataset</caption>
+				<table class='data-preview'>
+					<tr>
+						<th>Value</th>
+						<th>Measurement</th>
+						<th>Date</th>
+						<th>Major Category</th>
+						<th>Subcategory</th>
+						<th>Specific</th>
+					</tr>
+
+					<tr>
+						<td>1177.3</td>
+						<td>GDP(billions)</td>
+						<td>1/1/12</td>
+						<td>Personal consumption expenditures</td>
+						<td>Goods</td>
+						<td>Durable goods</td>
+					</tr>
+
+					<tr>
+						<td>7433.8</td>
+						<td>GDP(billions)</td>
+						<td>10/1/12</td>
+						<td>Personal consumption expenditures</td>
+						<td>Services</td>
+					</tr>
+
+					<tr>
+						<td>2118.7</td>
+						<td>GDP(billions)</td>
+						<td>10/1/13</td>
+						<td>Gross private domestic investment</td>
+						<td>Fixed investment</td>
+						<td>Nonresidential</td>
+					</tr>
+					<tr>
+						<td>...</td>
+						<td>...</td>
+						<td>...</td>
+						<td>...</td>
+						<td>...</td>
+						<td>...</td>
+					</tr>
+				</table>
+				
+				<p class='small'> Click this div to load the GDP dataset. </p>
+
+				<h2 class='dataset-title'>Options for GDP Graphs</h2>
+				<div class='intro-text options-hash-formatting'>
+var options = {
+	types: { 
+		'GDP(billions)': 'number'
+	},
+	yAxisIsAnInstanceOf:'Measurement', 
+	yAxisDataColumn:'Value', 
+	dateColumn:'Date'
+}
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

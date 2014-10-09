@@ -1,0 +1,10 @@
+{ 
+	"name":"graph_dashboard_challenge",
+	"author":"Andrew Langdon andrewlngdn@gmail.com",
+	"scripts": {
+		"start": "node application.js"
+	},
+	"dependencies":{
+		"node-static": "latest"
+	}
+}
